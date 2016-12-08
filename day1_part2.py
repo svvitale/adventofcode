@@ -1,3 +1,13 @@
+"""
+--- Part Two ---
+
+Then, you notice the instructions continue on the back of the Recruiting Document. Easter Bunny HQ is actually at the
+first location you visit twice.
+
+For example, if your instructions are R8, R4, R4, R8, the first location you visit twice is 4 blocks away, due East.
+
+How many blocks away is the first location you visit twice?
+"""
 import sys
 
 input_data = "R4, R4, L1, R3, L5, R2, R5, R1, L4, R3, L5, R2, L3, L4, L3, R1, R5, R1, L3, L1, R3, L1, R2, R2, L2, " \
