@@ -1,71 +1,36 @@
 """
---- Day 1: No Time for a Taxicab ---
+--- Day 1: Inverse Captcha ---
 
-Santa's sleigh uses a very high-precision clock to guide its movements, and the clock's oscillator is regulated by
-stars. Unfortunately, the stars have been stolen... by the Easter Bunny. To save Christmas, Santa needs you to
-retrieve all fifty stars by December 25th.
+The night before Christmas, one of Santa's Elves calls you in a panic. "The printer's broken! We can't print the Naughty or Nice List!" By the time you make it to sub-basement 17, there are only a few minutes until midnight. "We have a big problem," she says; "there must be almost fifty bugs in this system, but nothing else can print The List. Stand in this square, quick! There's no time to explain; if you can convince them to pay you in stars, you'll be able to--" She pulls a lever and the world goes blurry.
 
-Collect stars by solving puzzles. Two puzzles will be made available on each day in the advent calendar; the second
-puzzle is unlocked when you complete the first. Each puzzle grants one star. Good luck!
+When your eyes can focus again, everything seems a lot more pixelated than before. She must have sent you inside the computer! You check the system clock: 25 milliseconds until midnight. With that much time, you should be able to collect all fifty stars by December 25th.
 
-You're airdropped near Easter Bunny Headquarters in a city somewhere. "Near", unfortunately, is as close as you can
-get - the instructions on the Easter Bunny Recruiting Document the Elves intercepted start here, and nobody had time
-to work them out further.
+Collect stars by solving puzzles. Two puzzles will be made available on each day millisecond in the advent calendar; the second puzzle is unlocked when you complete the first. Each puzzle grants one star. Good luck!
 
-The Document indicates that you should start at the given coordinates (where you just landed) and face North. Then,
-follow the provided sequence: either turn left (L) or right (R) 90 degrees, then walk forward the given number of
-blocks, ending at a new intersection.
+You're standing in a room with "digitization quarantine" written in LEDs along one wall. The only door is locked, but it includes a small interface. "Restricted Area - Strictly No Digitized Users Allowed."
 
-There's no time to follow such ridiculous instructions on foot, though, so you take a moment and work out the
-destination. Given that you can only walk on the street grid of the city, how far is the shortest path to the
-destination?
+It goes on to explain that you may only leave by solving a captcha to prove you're not a human. Apparently, you only get one millisecond to solve the captcha: too fast for a normal human, but it feels like hours to you.
+
+The captcha requires you to review a sequence of digits (your puzzle input) and find the sum of all digits that match the next digit in the list. The list is circular, so the digit after the last digit is the first digit in the list.
 
 For example:
 
-Following R2, L3 leaves you 2 blocks East and 3 blocks North, or 5 blocks away.
-R2, R2, R2 leaves you 2 blocks due South of your starting position, which is 2 blocks away.
-R5, L5, R5, R3 leaves you 12 blocks away.
-How many blocks away is Easter Bunny HQ?
+1122 produces a sum of 3 (1 + 2) because the first digit (1) matches the second digit and the third digit (2) matches the fourth digit.
+1111 produces 4 because each digit (all 1) matches the next.
+1234 produces 0 because no digit matches the next.
+91212129 produces 9 because the only digit that matches the next one is the last digit, 9.
+What is the solution to your captcha?
 """
-import sys
+input_data = open('day1_input.txt').read()
 
-input_data = "R4, R4, L1, R3, L5, R2, R5, R1, L4, R3, L5, R2, L3, L4, L3, R1, R5, R1, L3, L1, R3, L1, R2, R2, L2, " \
-             "R5, L3, L4, R4, R4, R2, L4, L1, R5, L1, L4, R4, L1, R1, L2, R5, L2, L3, R2, R1, L194, R2, L4, R49, " \
-             "R1, R3, L5, L4, L1, R4, R2, R1, L5, R3, L5, L4, R4, R4, L2, L3, R78, L5, R4, R191, R4, R3, R1, L2, " \
-             "R1, R3, L1, R3, R4, R2, L2, R1, R4, L5, R2, L2, L4, L2, R1, R2, L3, R5, R2, L3, L3, R3, L1, L1, R5, " \
-             "L4, L4, L2, R5, R1, R4, L3, L5, L4, R5, L4, R5, R4, L3, L2, L5, R4, R3, L3, R1, L5, R5, R1, L3, R2, " \
-             "L5, R5, L3, R1, R4, L5, R4, R2, R3, L4, L5, R3, R4, L5, L5, R4, L4, L4, R1, R5, R3, L1, L4, L3, L4, " \
-             "R1, L5, L1, R2, R2, R4, R4, L5, R4, R1, L1, L1, L3, L5, L2, R4, L3, L5, L4, L1, R3"
+# Copy the first character to the end to handle wrapping
+input_data += input_data[0]
 
-current_direction = 0
-x = 0
-y = 0
+total = 0
 
-for instruction in input_data.split(', '):
-    direction = instruction[0]
-    distance = int(instruction[1:])
+for idx, char in enumerate(input_data):
+    if idx + 1 < len(input_data):
+        if char == input_data[idx + 1]:
+            total += int(char)
 
-    # Suss out our direction
-    if direction == 'R':
-        current_direction += 1
-    else:
-        current_direction -= 1
-
-    if current_direction == -1:
-        current_direction = 3
-
-    if current_direction == 4:
-        current_direction = 0
-
-    # Walk
-    if current_direction == 0:
-        y += distance
-    elif current_direction == 1:
-        x += distance
-    elif current_direction == 2:
-        y -= distance
-    elif current_direction == 3:
-        x -= distance
-
-final_distance = abs(x) + abs(y)
-print('Final coordinates are {}, {}.  Taxi distance of {} from start'.format(x, y, final_distance))
+print(total)

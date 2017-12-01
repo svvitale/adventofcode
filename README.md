@@ -1,6 +1,6 @@
-# Advent of Code 2016
+# Advent of Code 2017
 
-These are my solutions for the Advent of Code 2016.  I've really
+These are my solutions for the Advent of Code 2017.  I've really
 enjoyed a break from real world problems to work on something more
 algorithm-focused.
 
